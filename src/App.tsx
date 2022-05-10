@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.png';
 import './App.css';
-import { HavenoClient } from 'haveno-ts';
+import { HavenoClient, XmrBalanceInfo} from 'haveno-ts';
 
 
 const HAVENO_DAEMON_URL = "http://localhost:8080";
@@ -43,6 +43,8 @@ class App extends React.Component<any, {daemonVersion: string}> {
   
   async componentDidMount() {
     try {
+      let balances: XmrBalanceInfo = await this.havenod.getBalances();
+      let balance: BigInt = BigInt(balances.getBalance());
       this.setState({daemonVersion: await this.havenod.getVersion()});
     } catch (err) {
       console.error(err);
